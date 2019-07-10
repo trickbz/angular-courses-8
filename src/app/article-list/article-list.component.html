@@ -1,0 +1,54 @@
+<div class="container mt-2">
+  <div *ngIf="hasNewArticle"
+       class="row">
+    <div class="col">
+      <div class="alert alert-success"
+           role="alert">
+        Article has been created successfully!
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h1>
+        Articles List
+      </h1>
+    </div>
+    <div class="col text-right">
+      <i *ngIf="isLoading"
+         class="fas fa-lg fa-spinner fa-spin"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <hr />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="table table-sm table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Text</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let article of articles">
+            <td>{{article.id}}</td>
+            <td>{{article.title}}</td>
+            <td>{{article.text}}</td>
+            <td>
+              <button class="btn btn-danger btn-sm"
+                      (click)="removeArticle(article.id)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
