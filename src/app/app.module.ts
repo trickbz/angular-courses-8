@@ -11,12 +11,12 @@ import { ArticleCreateComponent } from './article-create/article-create.componen
   declarations: [
     AppComponent,
     ArticleListComponent,
-    ArticleCreateComponent,
+    ArticleCreateComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
