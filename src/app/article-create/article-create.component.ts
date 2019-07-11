@@ -28,8 +28,8 @@ export class ArticleCreateComponent implements OnInit {
   }
 
   submit(): void {
+    console.log('submitted');
     this._isLoading = true;
-
     this._articlesService.createArticle$(this.form.value)
       .subscribe(() => {
         this._router.navigate(['/list'], { queryParams: { new: true } });
