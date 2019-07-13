@@ -47,26 +47,21 @@ describe('ArticleCreateComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('submit btn should be disabled while page is loading', () => {
+    spyOnProperty(component.form, 'invalid').and.returnValue(true);
+    fixture.detectChanges();
+    expect(submitButton.nativeElement.disabled).toBeTruthy();
+  });
+
   it('submit btn should be enabled when form is valid', () => {
     expect(submitButton.nativeElement.disabled).toBeTruthy();
-
-    titleInput.nativeElement.value = 'title input value';
-    titleInput.nativeElement.dispatchEvent(new Event('input'));
+    component.form.setValue({ title: 'title', text: 'text' });
     fixture.detectChanges();
-    expect(submitButton.nativeElement.disabled).toBeTruthy();
-
-    textInput.nativeElement.value = 'text input value';
-    textInput.nativeElement.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-
     expect(submitButton.nativeElement.disabled).toBeFalsy();
   });
 
   it('should navigate list?new=true', fakeAsync(inject([Router, Location], (router: Router, location: Location) => {
-    titleInput.nativeElement.value = 'title input value';
-    titleInput.nativeElement.dispatchEvent(new Event('input'));
-    textInput.nativeElement.value = 'text input value';
-    textInput.nativeElement.dispatchEvent(new Event('input'));
+    component.form.setValue({ text: 'text', title: 'title' });
     fixture.detectChanges();
     form.triggerEventHandler('submit', null);
     tick(2000);
@@ -80,5 +75,11 @@ describe('ArticleCreateComponent', () => {
     spinner = fixture.debugElement.query(By.css('.fa-spinner'));
     tick(2000);
     expect(spinner).toBeTruthy();
+  }));
+
+  it('isLoading', fakeAsync(() => {
+    form.triggerEventHandler('submit', null);
+    tick(2000);
+    expect(component.isLoading).toBeTruthy();
   }));
 });

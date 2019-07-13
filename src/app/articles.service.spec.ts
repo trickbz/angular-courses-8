@@ -3,6 +3,8 @@ import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 import { ArticlesService } from './articles.service';
 import { IArticle } from './iarticle';
 
+const delay = 2000;
+
 describe('ArticlesService', () => {
   let articlesService: ArticlesService;
 
@@ -20,30 +22,30 @@ describe('ArticlesService', () => {
     expect(articlesService).toBeTruthy();
   });
 
-  it('removeArticle', fakeAsync(() => {
+  it('should remove an article', fakeAsync(() => {
     const articleIdToRemove = 1;
     articlesService.removeArticle(articleIdToRemove);
     let foundArticle: IArticle;
     articlesService.articles$.subscribe((data) => {
       foundArticle = data.find(a => a.id === 1);
     });
-    tick(2000);
+    tick(delay);
     expect(foundArticle).toBeUndefined();
   }));
 
-  it('createArticle', fakeAsync(() => {
+  it('should create article', fakeAsync(() => {
     const newArticle: IArticle = {
-      title: 'New Article',
-      text: 'New Article Text'
+      title: 'title input value',
+      text: 'text input value'
     };
 
     const expectedArticle: IArticle = {
-      ...newArticle,
-      id: 4
+      ...newArticle
     };
 
     articlesService.createArticle$(newArticle)
       .subscribe(article => {
+        expectedArticle.id = article.id;
         expect(article).toEqual(expectedArticle);
       });
 
@@ -51,14 +53,15 @@ describe('ArticlesService', () => {
       const foundArticle = articles.find(a => a.id === expectedArticle.id);
       expect(foundArticle).toEqual(expectedArticle);
     });
-    tick(2000);
+    tick(delay);
   }));
 
-  it('articles$', fakeAsync(() => {
+  it('should return articles', fakeAsync(() => {
     const articlesStream = articlesService.articles$;
     articlesStream.subscribe(articles => {
       expect(articles instanceof Array).toBeTruthy();
+      expect(articles.length).toBeTruthy();
     });
-    tick(2000);
+    tick(delay);
   }));
 });
